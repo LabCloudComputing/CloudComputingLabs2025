@@ -6,7 +6,7 @@
 
 There are **4 labs in total** in this course. All the materials of each lab are under folders Lab1-4 in this repo. Please clone the lab git repo onto your local computer,
 
-`git clone https://github.com/1989chenguo/CloudComputingLabs.git`
+`git clone https://gitee.com/hnu-cloudcomputing/CloudComputingLabs.git`
 
 and always track our latest lab materials using the following commands (should first enter the folder you have cloned from our lab repo)
 
@@ -20,7 +20,7 @@ Also, please **carefully read each lab's instruction** ([Lab1](Lab1/README.md), 
 
 ## 2. Group collaboration
 
-Each student should register your own github account. Group members should use **git and github** to collaborate. 
+Each student should register your own gitee account. Group members should use **git and gitee** to collaborate. 
 
 All the labs are done in the unit of group, i.e., a group only needs to submit one piece of code for each lab. However, each group member should make enough contribution to the lab. Teaching assistants will check the **git commit history** to evaluate each one’s contribution.
 
@@ -28,7 +28,7 @@ All the labs are done in the unit of group, i.e., a group only needs to submit o
 
 Each group should create a code repo for our course (create your own group's repo, do not push onto my course lab repo!). The group leader should send an email to TA telling us your group's lab git repo address. For example, https://github.com/group1/CloudComputingLabs.git`
 
-**All the lab code should be submitted through pushing to your group's github code repo.** Teaching assistants will checkout your commit, and read and test your codes from the above repo address you provided us. The code of different lab should be in different folders, named Lab1/Lab2/Lab3/Lab4, respectively (following the same structure of this repo). Please note that your lab folder name should be exactly same as above (be careful about the first capital letter and no space before the number), otherwise your code may fail in our TAs' automatic testing scripts. All lab codes should be in the same course git repo of your group.
+**All the lab code should be submitted through pushing to your group's gitee code repo.** Teaching assistants will checkout your commit, and read and test your codes from the above repo address you provided us. The code of different lab should be in different folders, named Lab1/Lab2/Lab3/Lab4, respectively (following the same structure of this repo). Please note that your lab folder name should be exactly same as above (be careful about the first capital letter and no space before the number), otherwise your code may fail in our TAs' automatic testing scripts. All lab codes should be in the same course git repo of your group.
 
 Please write a README.md to each lab code folder, briefly introducing how to run your lab code (including how to set the environment, provide the input, and explain the output, etc.). Keep the README short and clear! Also, your code should be well commented so that other people can understand without asking you. 
 

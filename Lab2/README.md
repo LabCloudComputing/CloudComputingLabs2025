@@ -136,7 +136,7 @@ Just return 501 Not Implemented page for other request method (e.g. DELETE, PUT,
 
 ### 3.2 Implement a proxy server (optional for advanced version)
 
-Enable your server to proxy HTTP requests to another HTTP server and forward the responses to the clients.
+Enable your server to proxy HTTP requests to another HTTP server and forward the responses to the clients（reverse proxy）.
 
 1. You should use the value of the `--proxy` command line argument, which contains the address and port number of the upstream HTTP server.
    

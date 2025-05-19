@@ -1,23 +1,31 @@
-# 云计算Lab4
+# 实验文档
 
-## **1. Overview**
+## 1. 系统概述
 
 在 Lab 2 中，我们完成了一个简化的 HTTP/1.1 Web 服务器；
 
 在 Lab 3 中，我们完成了一个简化的 分布式数据库系统。
 
-现在让我们尝试将两者组合并完善，构建一个高性能的分布式选课系统。
+现在让我们尝试将两者组合并完善，开发一个基于Web的聊天系统，能够连接并管理多个大型语言模型(LLM)后端，提供统一的用户聊天界面。系统应支持负载均衡和故障转移，确保服务的高可用性和稳定性。
 
-我们的目标：
+**任务点：补充代码**
 
-- 运用课程知识与过去的实验项目，构建一个分布式选课系统
-- 学习如何提高一个系统的健壮性和可扩展性，尽可能提升其性能
+```
+文件目录：Lab4\modules\backend_manager.py
 
-**注意：如果你选择完成 Lab 4，那么将不再需要完成 Lab 3，因为 Lab 4 已经涵盖了 Lab 3 的要求，其中数据库方面的要求，请查看Lab3，我们会根据你的 Lab 4 完成情况对 Lab 3 进行打分。**
+def get_available_backend():
+    """
+    选择一个可用后端（可用于负载均衡）
+    
+    返回:
+        dict: 选择的后端信息，包含backend_id字段
+    """
+    #lab4_Job:请补充代码，实现自己的算法选择一个后端返回
+    
+    
+```
 
----
-
-## 2. Background
+## 2. 背景知识
 
 你所需要的有关 Http Server 与 Distributed Database 的基础知识都在过去的实验中，如果你忘记了或者想要复习，可以重新查看 [Lab 2](https://github.com/1989chenguo/CloudComputingLabs/tree/master/Lab2) 和 [Lab 3](https://github.com/1989chenguo/CloudComputingLabs/tree/master/Lab3)。
 
@@ -27,7 +35,7 @@
 
 其中一种简单的逻辑分割是`垂直分库`。比如我们的数据库中有商品表Products、还有对订单表Orders，还有积分表Scores。接下来我们就可以创建三个数据库，一个数据库存放商品，一个数据库存放订单，一个数据库存放积分。如下图所示：
 
-![img1](./static/img1.png)
+![img](https://gitee.com/hnu-cloudcomputing/CloudComputingLabs/raw/master/Lab4/static/img1.png)
 
 这样做有以下几个优点：
 
@@ -47,378 +55,43 @@
 
 为了更好的实现负载均衡器，你可能需要选择一种或几种合适的调度算法。
 
----
+## 3. 核心功能需求
 
-## **3. Your Tasks**
+### 3.1 多后端管理
 
-**Basic Version**
+- 支持添加、删除和管理多个LLM后端服务（如OpenAI等）
+- 提供Web界面进行后端服务的配置管理
 
-![img2](./static/img2.png)
+### 3.2 聊天功能
 
-在 **basic** 版本中，你只需要运行一个 Web 服务器，与其相连的是多个存储器集群。
+- 支持文本输入和回复显示
+- 保持对话上下文，确保多轮对话的连贯性
+- 支持长对话历史的智能截断，避免超出模型上下文限制
 
-对于Web服务器，我们要求：支持高并发，可以同时响应多个客户端发送的请求。
+### 3.3 负载均衡与高可用
 
-对于存储器集群，我们要求：集群数量不小于2，单个集群之间的通信可以使用 2PC 或 RAFT 协议实现。
+- 实现多后端间的请求分发机制
+- 支持后端故障转移，当一个后端失败时自动使用其他后端
 
-> 当存储器集群数量增多时，你可以对存储的数据进行分库存储，如课程中的数据可以存储在 Cluster 1 中，而学生个人信息相关的数据可以存储在 Cluster 2 中。
-> 
+## 4. 技术要求
 
-**Advanced Version**
+- 前端：基于HTML/CSS/JavaScript的响应式Web界面
+- 后端：可使用成熟框架开发Web服务
+- 通信：需要支持OpenAI兼容的API格式
+- 存储：使用实验三开发的分布式键值存储系统保存后端信息和聊天历史
 
-![img2](./static/img3.png)
+## 5. 性能要求
 
-在advance版本中，你需要运行一个负载均衡器，多个Web服务器以及多个存储器集群。
+- 支持多用户并发
 
-对于负载均衡器，我们要求：支持高并发，能够动态地选择活跃并且可用的Web服务器，将请求发送至相应节点进行处理。
+## 6.提交要求
 
-对于Web服务器和存储器集群，我们要求等同于Basic版本。
+1. 补全指定位置代码
+2. 在Lab4文件夹（而不是Lab4的子文件夹下！）下必须有一个文件名为“小组名称+Lab4报告“的文件，此文件内需有要求的两个截图：①截取成语接龙的对话页面，②后端管理（需要至少配置有一个后端）的界面。  
+   实验报告放相应截图就可以（必要），也可以把自己的一些实现的思考过程以及有价值的点写上去（非必要）。
 
-## 4. Standardized Format
+## 7.评分标准
 
-为了更好的进行测试与评阅，我们将对实验过程中的一些数据格式进行标准规定，请确保你实现的最终系统在这些对外接口上是我们的标准一致的。
+- 完成所有要求，你将获得 10 分。
+- 如果你有部分功能没有实现，将根据你的完成情况进行细化打分。
 
-在请求体和响应体中，我们采用JSON格式进行通信。请求体根据请求内容决定，而响应体包含了特定的数据结构，分别为`code`，`data`和`msg`。其中`code`表示状态码，200为正常响应，其他为错误响应，可以根据实际情况返回不同的非零值。`data`表示响应对象，里面包含响应结果，错误情况下为空。`msg`表示响应消息，正常情况下一般为ok，错误情况下根据实际值返回错误消息。
-
-> 除了特定的 api 之外，Web 服务器仍需要支持静态文件访问等基本功能（如支持显示 html 页面，非法 path 返回 404 页面等），在此略去介绍，具体信息可参考 Lab 2。
-> 
-
-> 我们对 api 的设计进行了非常多的简化，现实中将会远比它们复杂，你可以使用要求以外的 path 扩展你的系统，如：你可以自行设计报错信息。
-> 
-
-### 4.1 Web Server
-
-一个完整的选课系统需要包含众多功能，为了降低复杂性，我们将其抽象为查询课程，选中课程和退选课程这几个模块。
-
-1. `/api/search/course`
-
-> 介绍：主要用于查询课程信息，相关的参数使用 `query` 携带，查询后给出的数据至少需要包含课程的 编号，名称，容量和已选人数。
-> 
-
-> 方法：GET
-> 
-
-> 参数：id=[course_id]
-> 
-> 
-> > 课程编号仅由 `[a-zA-Z0-9]`组成，不含有特殊字符。
-> > 
-
-> 响应体：
-> 
-> 
-> ```json
-> {
->       "code": 200,
->       "data": {
->           "id": course_id,  // 课程id
->           "name": course_name , // 课程
->           "capacity": capacity , // 课程容量
->           "selected": selected // 已选人数
->       },
->       "msg": "ok"
-> }
-> ```
-> 
-
-2. `/api/search/all`
-
-> 介绍：与查询单个课程类似，但其 `data`字段的值从单个课程信息变为了包含所有课程信息的数组。
-> 
-
-> 方法：GET
-> 
-
-> 响应体：
-> 
-> 
-> ```json
-> {
->       "code": 200,
->       "data": [{
->           "id": course_id, // 课程id
->           "name": course_name , // 课程
->           "capacity": capacity , // 课程容量
->           "selected": selected // 已选人数
->       },{
->           "id": course_id,
->           "name": course_name , // 课程
->           "capacity": capacity , // 课程容量
->           "selected": selected  // 已选人数
->           },
->           ...
->       ],
->       "msg": "ok"
-> }
-> ```
-> 
-
-3. `/api/search/student`
-
-> 介绍：主要用于查询学生所选课程信息，相关的参数使用 `query` 携带
-> 
-
-> 方法：GET
-> 
-
-> 参数：stuid=[student_id]
-> 
-> 
-> > 学生学号仅由 `[a-zA-Z0-9]`组成，不含有特殊字符。
-> > 
-
-> 响应体：
-> 
-> 
-> ```json
-> {
->       "code": 200,
->       "data": {
->           "stuid": student_id, // 学号
->           "name": student_name , // 学生姓名
->           "course": [{ // 学生选的课程数组
->               "id": course_id,
->               "name": course_name , // 课程
->               },{
->               "id": course_id,
->               "name": course_name , // 课程
->               },
->               ...
->           ]
->       },
->       "msg": "ok"
-> }
-> ```
-> 
-> > 如果学生未选课程， `data.course = []`即可。
-> > 
-
-4. `/api/choose`
-
-> 介绍：主要用于进行选课操作，相关的参数使用 `http request body`携带
-> 
-
-> 方法：POST
-> 
-
-> 请求体：
-> 
-> 
-> ```json
-> {
->       "stuid": student_id, // 学生学号
->       "course_id": course_id // 课程编号
-> }
-> ```
-> 
-> > 当需要进行选课操作时，`payload` 应至少包含 学生学号，课程编号。
-> > 
-
-> 响应体：
-> 
-> 
-> ```json
-> {
->       "code": 200,
->       "data": [],
->       "msg": "ok"
-> }
-> ```
-> 
-> > 对于 payload 格式或数据非法，无法查询到相关信息，课程已满 等错误情况，返回包含错误信息的 JSON 对象即可。
-> > 
-
-5. `/api/drop`
-
-> 介绍：主要用于进行退选操作，相关的参数使用 `http request body`携带
-> 
-
-> 方法：POST
-> 
-
-> 请求体：
-> 
-> 
-> ```json
-> {
->       "stuid": student_id, // 学生学号
->       "course_id": course_id // 课程编号
-> }
-> ```
-> 
-> > 当需要进行选课操作时，`payload` 应至少包含 学生学号，课程编号。
-> > 
-
-> 响应体：
-> 
-> 
-> ```json
-> {
->       "code": 200,
->       "data": [],
->       "msg": "ok"
-> }
-> ```
-> 
-> > 对于 payload 格式或数据非法，无法查询到相关信息，该学生没有选择这门课等错误情况，返回包含错误信息的 JSON 对象即可。
-> > 
-
-### 4.2 Store Server
-
-### Command Lines Arguments
-
-由于我们系统使用了默认数据，所以你的存储器应该在启动时，对这些数据进行读取。
-
-> 默认数据可以在 data/ 文件夹中找到。
-> 
-
-> 其余说明请参考 Lab 3。
-> 
-
-### Database Tables
-
-数据库的基础格式是关系型数据库，你也可以根据需要增添修改数据的类型，也可以选择设计新类型的数据库，但必须保证通过数据库可以正常完成需要的功能。
-
-> 默认数据可以在 data/ 文件夹中找到。
-> 
-
-### Course
-
-| id(key) - string | name - string | capacity - int | selected - int |
-| --- | --- | --- | --- |
-| "CS06142" | "云计算技术" | 120 | 120 |
-
-### Student
-
-| id(key) - string | name - string |
-| --- | --- |
-| "211926010111" | "张三" |
-
-### Course Selection
-
-| Course id - string | Student id - string |
-| --- | --- |
-| "CS06142" | "211926010111" |
-
-### Commands
-
-正常情况下，用户访问数据仅通过前端的 HTTP Web 服务器，而数据查询由 Web 服务器与数据库集群进行交互。
-
-以下给出的数据库命令**仅供参考**，你可以选择自己实现一个满足相同基本功能的命令集。
-
-### Check Courses Capacity
-
-发送 `GET Course [course id]`, e.g., `GET Course CS06142`；
-
-返回 `[course id] [course name] [course capacity] [selected number]`, e.g., `CS06142 云计算技术 120 120`
-
-特别的，可以一次查询所有的课程最大容量信息:
-
-发送 `GET Course all`, e.g., `GET Course all`；
-
-返回 **多行** `[course id] [course name] [course capacity] [selected number]`, e.g., `CS04008 计算机网络 90 80\nCS06142 云计算技术 120 120`。
-
-### Check Student Selected Courses
-
-发送 `GET Student Courses [student id]`, e.g., `GET Student Courses 211926010111`；
-
-返回 **多行** `[course id] [course name]`, e.g., `CS04008 计算机网络\nCS06142 云计算技术`。
-
-### Choose a Course
-
-发送 `ADD Student Course [student id] [course id]`, e.g., `ADD Student Course 211926010111 CS06142`；
-
-如果成功，返回 `+OK`; 如果失败，返回 `-ERROR`。
-
-### Drop a Course
-
-发送 `DEL Student Course [student id] [course id]`, e.g., `DEL Student Course 211926010111 CS06142`；
-
-如果成功，返回 `+OK`; 如果失败，返回 `-ERROR`。
-
-### 4.3 **Load Balancer**
-
-为了更好地统一测试，我们需要你的负载均衡器采用标准的配置文件启动，例如，你可以这样将所有的Web服务的地址和端口传给负载均衡器，由负载均衡器动态的转发请求到这些Web服务上：
-
-```
-# web_servers.conf
-# 每一行都是一个内部web服务进程的监听地址和端口
-127.0.0.1 8081
-127.0.0.1 8082
-127.0.0.1 8083
-127.0.0.1 8084
-```
-
-## 5. Test
-
-默认情况下，我们将在 Linux Ubuntu 20.04 x64 服务器进行测试。
-
-我们预期的测试和评分项目有：
-
-- API功能实现：上述每个API均为1分（**5分**）
-- 存储节点容灾测试：随机终止存储节点服务，接口运行情况（**3分**）
-- 负载均衡实现：通过负载均衡器对外提供接口服务，并且Web服务能够容灾（**1分**）
-- 性能测试：在高并发下、动态切换的情况下，系统的承载能力，根据所有小组的测试情况进行内部评比得分（1**分**）
-
-为了标准化测试，你的系统在运行上，需要满足一下条件：
-
-1. 注意文件结构，不同模块源代码处于不同文件夹中（我们会检查你的源代码）
-2. 项目的根目录下可以使用 `make` 命令直接编译所有模块
-3. 可执行文件分为 Web 服务器 和 存储器集群两个部分，其中
-    - Web 服务器可执行文件为 `web-server`，支持 `-ip`, `-port`, `-config_path` 等命令行参数，例如`./web-server --ip 127.0.0.1 --port 8080 --config_path ./conf/store_servers.conf`
-    - 存储器 可执行文件为 `store-server`，支持 `-config_path` 等命令行参数，并使用配置文件 `coordinator.conf` 或 `participant.conf` 进行配置，具体细节请查看Lab3。测试中，每个集群的存储服务器数量为 4，2pc和raft任选一种实现，例如：
-    
-    ```
-    # 启动存储服务器集群1（该集群主要存储 学生-选课 数据） - 2pc
-    $ ./store-server --config_path ./conf/coordinator1.conf
-    $ ./store-server --config_path ./conf/participant101.conf
-    $ ./store-server --config_path ./conf/participant102.conf
-    $ ./store-server --config_path ./conf/participant103.conf
-    
-    # 启动存储服务器集群2（该集群主要存储 课程-选课人数 数据） - raft
-    $ ./store-server --config_path ./conf/store201.conf
-    $ ./store-server --config_path ./conf/store202.conf
-    $ ./store-server --config_path ./conf/store203.conf
-    $ ./store-server --config_path ./conf/store204.conf
-    ```
-    
-    - 如果你实现了 `Load Balancer`，其可执行文件请命名为 `load-balancer`，支持 `-ip --port --web_config_path -store_config_path`   等命令行参数。例如
-    
-    ```
-    # 启动负载均衡器
-    $ ./load-balancer --ip 127.0.0.1 --port 8080 --store_config_path ./conf/store_servers.conf --web_config_path ./conf/web_servers.conf
-    
-    # 启动web服务器集群
-    $ ./web-server01 --ip 127.0.0.1 --port 8081 --config_path ./conf/store_servers.conf
-    $ ./web-server02 --ip 127.0.0.1 --port 8082 --config_path ./conf/store_servers.conf
-    $ ./web-server02 --ip 127.0.0.1 --port 8083 --config_path ./conf/store_servers.conf
-    $ ./web-server02 --ip 127.0.0.1 --port 8084 --config_path ./conf/store_servers.conf
-    ```
-    
-
-> 可执行文件与配置文件的要求可以参考 Lab2, Lab 3。
-> 
-
-4.每次运行系统，都将先启动多个存储器集群中的每个存储服务器，随后启动多个 Web 服务器，最后再启动 Load Balancer（如果需要），请保证每个可执行文件都能正常运行。
-
-类似之前的实验，我们提供了[测试程序](https://github.com/LabCloudComputing)，请仔细阅读 Lab 4 实验文档和测试程序文档后使用。
-
----
-
-## 6. Lab submission
-
-将你的代码提交到 `/Lab4/` 文件夹，并编写 `Makefile` 确保可以直接使用 `make` 命令编译所有需要的可执行文件。
-
-考虑到 `Lab 4` 实现完整系统较为复杂，验收可能会存在额外问题，请在提交代码的同时，编写一份 `intro.md` ，并添加一些说明，如：如何编译，如何运行你的程序；是否运用了其他依赖库，如何安装依赖；如何管理数据库，实现数据分块等。
-
----
-
-## 7. Grading standards
-
-完成所有 Basic 版本的要求，你将获得 8 分；
-
-完成所有 Advanced 版本的要求，你将获得 10 分。
-
-如果你有部分功能没有实现，将根据你的完成情况进行细化打分。
-
-**此分数不包含 Lab 3，Lab 3 的分数会根据 Lab 4 完成情况另外获得。**
