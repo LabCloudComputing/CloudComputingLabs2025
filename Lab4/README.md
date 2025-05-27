@@ -29,7 +29,7 @@ def get_available_backend():
 
 整体代码框架如下图所示：
 
-![img1](D:\HeDong\云计算\new\CloudComputingLabs\Lab4\static\img1.png)
+<img src="static/img1.png" />
 
 ### 2.1 多后端管理
 
@@ -49,11 +49,11 @@ def get_available_backend():
 
 * **/api/backends**的业务逻辑在modules\backend_manager.py中实现。需要选择一个大模型后端（**这里也是需要大家补全代码的地方**）。同时将所获得的后端配置信息存入数据库，如下图所示。
 
-  ![img2](D:\HeDong\云计算\new\CloudComputingLabs\Lab4\static\img2.png)
+<img src="static/img2.png" />
 
 示例的后端管理界面如下图所示：
 
-![img3](D:\HeDong\云计算\new\CloudComputingLabs\Lab4\static\img3.png)
+<img src="static/img3.png" />
 
 ### 2.2 聊天功能
 
@@ -71,11 +71,11 @@ def get_available_backend():
 
 * modules\chat_history.py实现获取历史上下文，modules\llm_client.py实现发送请求给后端大模型。
 
-  ![img4](D:\HeDong\云计算\new\CloudComputingLabs\Lab4\static\img4.png)
+<img src="static/img4.png" />
 
 示例的聊天界面如下图所示：
 
-![img5](D:\HeDong\云计算\new\CloudComputingLabs\Lab4\static\img5.png)
+<img src="static/img5.png" />
 
 ### 2.3 负载均衡与高可用（任务点）
 
